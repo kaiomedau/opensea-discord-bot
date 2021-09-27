@@ -43,8 +43,6 @@ async function main() {
   const channel = await discordSetup();
   const seconds = 40000;//process.env.SECONDS ? parseInt(process.env.SECONDS) : 3_600;
   const hoursAgo = (Math.round(new Date().getTime() / 1000) - (seconds)); // in the last hour, run hourly?
-  
-  console.log(hoursAgo);
 
   const params = new URLSearchParams({
     offset: '0',
@@ -54,9 +52,9 @@ async function main() {
     collection_slug: process.env.COLLECTION_SLUG!,
   })
 
-  if (process.env.CONTRACT_ADDRESS !== OPENSEA_SHARED_STOREFRONT_ADDRESS) {
-    params.append('asset_contract_address', process.env.CONTRACT_ADDRESS!)
-  }
+  // if (process.env.CONTRACT_ADDRESS !== OPENSEA_SHARED_STOREFRONT_ADDRESS) {
+  //   params.append('asset_contract_address', process.env.CONTRACT_ADDRESS!)
+  // }
 
   const openSeaResponse = await fetch(
     "https://api.opensea.io/api/v1/events?" + params).then((resp) => resp.json());
