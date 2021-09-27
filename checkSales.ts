@@ -41,9 +41,11 @@ const buildMessage = (sale: any) => (
 async function main() {
   console.log("main");
   const channel = await discordSetup();
-  const seconds = 8000;//process.env.SECONDS ? parseInt(process.env.SECONDS) : 3_600;
+  const seconds = process.env.SECONDS ? parseInt(process.env.SECONDS) : 3_600;
   const hoursAgo = (Math.round(new Date().getTime() / 1000) - (seconds)); // in the last hour, run hourly?
   
+  console.log(hoursAgo);
+
   const params = new URLSearchParams({
     offset: '0',
     event_type: 'successful',
@@ -56,9 +58,13 @@ async function main() {
     params.append('asset_contract_address', process.env.CONTRACT_ADDRESS!)
   }
 
+  console.log(params);
+
   const openSeaResponse = await fetch(
     "https://api.opensea.io/api/v1/events?" + params).then((resp) => resp.json());
-    
+  
+  console.log(openSeaResponse);
+
   return await Promise.all(
     openSeaResponse?.asset_events?.reverse().map(async (sale: any) => {
       const message = buildMessage(sale);
